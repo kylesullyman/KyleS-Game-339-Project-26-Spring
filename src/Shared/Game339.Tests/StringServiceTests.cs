@@ -46,6 +46,32 @@ public class StringServiceTests
         Assert.That(result, Is.EqualTo(expected));
     }
 
+    [TestCase("hello world!", "world hello!")]
+    [TestCase("hello world.", "world hello.")]
+    [TestCase("hello world?", "world hello?")]
+    [TestCase("the quick brown fox!!", "fox brown quick the!!")]
+    public void ReverseWords_WithTrailingPunctuation_PreservesPunctuationAtEnd(string input, string expected)
+    {
+        // Act
+        var result = _svc.ReverseWords(input);
+
+        // Assert
+        Assert.That(result, Is.EqualTo(expected));
+    }
+
+    [TestCase("hello, world", "world hello,")]
+    [TestCase("it's a test", "test a it's")]
+    [TestCase("rock & roll", "roll & rock")]
+    [TestCase("100% done", "done 100%")]
+    public void ReverseWords_WithSpecialCharacters_ReversesWords(string input, string expected)
+    {
+        // Act
+        var result = _svc.ReverseWords(input);
+
+        // Assert
+        Assert.That(result, Is.EqualTo(expected));
+    }
+
     [Test]
     public void ReverseWords_NullString_ThrowsException()
     {

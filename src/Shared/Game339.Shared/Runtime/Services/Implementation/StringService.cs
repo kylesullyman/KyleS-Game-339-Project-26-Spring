@@ -22,8 +22,22 @@ namespace Game339.Shared.Services.Implementation
         public string ReverseWords(string input)
         {
             var words = input.Split(' ');
+            var trailingPunctuation = "";
+
+            // Strip trailing punctuation from the last word
+            if (words.Length > 0)
+            {
+                var lastWord = words[words.Length - 1];
+                while (lastWord.Length > 0 && char.IsPunctuation(lastWord[lastWord.Length - 1]))
+                {
+                    trailingPunctuation = lastWord[lastWord.Length - 1] + trailingPunctuation;
+                    lastWord = lastWord.Substring(0, lastWord.Length - 1);
+                }
+                words[words.Length - 1] = lastWord;
+            }
+
             var reversed = words.Reverse().ToArray();
-            var output = string.Join(" ", reversed);
+            var output = string.Join(" ", reversed) + trailingPunctuation;
             _log.Info($"{nameof(StringService)}.{nameof(ReverseWords)} - {nameof(input)}: {input} - {nameof(output)}: {output}");
             return output;
         }
